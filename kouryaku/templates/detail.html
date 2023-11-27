@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% load widget_tweaks %}
+{% block title %}post detail {% endblock %}
+{% block contents %}
+<br>
+<div class="container">
+    <div class="row">
+        <div class="col offset-3">
+
+
+<h2>{{object.title}}</h2>
+<p>{{object.comment}}</p>
+<br>
+<p><img src="{{ object.image1.url }}"></img></p>
+{% if object.image2 %}
+<p><img src="{{ object.image2.url }}"></img></p>
+{% endif %}
+{% if object.image3 %}
+<p><img src="{{ object.image3.url }}"></img></p>
+{% endif %}
+{% if request.user == object.user %}
+<form method="POST">
+<a href="{% url 'kouryaku:post_edit' object.pk %}"
+class="btn btn-primary my-2">編集する</a>
+{% endif %}
+{% if request.user == object.user %}
+<form method="GET">
+    {% csrf_token %}
+    <a href="{% url 'kouryaku:post_delete' object.pk %}"
+    class="btn btn-primary my-2">削除する</a>
+    {% endif %}
+
+    </div>
+    <type="text" id="detail_id" name="detail_id" value="{{ object.id }}">
+    <a class="btn btn-success col-3 offset-2" href="{% url 'kouryaku:comment_create' object.id %}">投稿する</a>
+</form>
+
+
+    {% for comment in comments %}
+        <div class="border-bottom">{{comment.user}}
+
+        {{comment.posted_at}}
+        </div>
+        <div class='mt-2'>{{comment.text}}</div>
+    {% endfor %}
+    </div>
+{% endblock %}
