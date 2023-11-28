@@ -17,7 +17,10 @@ from datetime import datetime, timezone
 from .models import Comments
 from .forms import CommentCreateForm
 from django.shortcuts import redirect, get_object_or_404
-
+from .forms import ContactForm
+from django.contrib import messages
+from django.core.mail import EmailMessage
+from django.views.generic import FormView
 
 
 class IndexView(ListView):
@@ -82,7 +85,58 @@ class DetailView(DetailView):
                         "comments":Comments.objects.filter(target=detail.id)
         })
         return context
+class ContactView(FormView):
+    # '''問い合わせページを表示するビュー
     
+    # フォームで入力されたデータを取得し、メールの作成と返信を行う
+    # '''
+    #contct.htmlをレンダリングする
+        template_name ='contact.html'
+    
+        #クラス変換form_classにform.pyで定義したContactFromを設定
+        form_class = ContactForm
+        #送信完了後にリダイレクトするページ
+        success_url = reverse_lazy('kouryaku:index')
+
+        def get_context_data(self, **kwargs):
+            context = super().get_context_data(**kwargs)
+            print(context['form'])
+            return context
+
+        def form_valid(self, form):
+    
+
+            name =  form.cleaned_data['name']
+            email =  form.cleaned_data['email']
+            title =  form.cleaned_data['title']
+            message =  form.cleaned_data['message']
+        #     #メールのタイトルの書式を設定   
+            subject =  'お問い合わせ: {}'.format(title)
+
+        #     #フォームの入力データの書式を設定
+            message = \
+            '送信者名: {0}\nメールアドレス: {1}\n タイトル: {2}\n メッセージ:\n{3}' \
+           .format(name, email, title , message)
+
+            from_email = 'admin@example.com'
+
+            to_list = ['halu.825.bakura@gmail.com']
+
+        #     # Email Messageオブジェクトを生成
+            message = EmailMessage(subject=subject, 
+                                body=message,
+                                from_email=from_email,
+                                to=to_list,          
+            )
+        #     #EmailMessage   クラスのsend()でメールサーバからメールを送信
+            message.send()
+        #     #送信後に完了するメッセージ
+            messages.success(
+                self.request, 'お問い合わせは正常に送信されました。')
+        #     # 戻り値はスーパークラスの form_valid()の戻り値(HttpResponseRedirect)
+            return super().form_valid(form)
+
+   
     
  
   
@@ -162,10 +216,11 @@ class CommentEditView(UpdateView):
         
         fields = ['text']
 
-       
-        # success_url = reverse_lazy('kouryaku:post_detail', )
+        
+        success_url = reverse_lazy('kouryaku:post_detail', )
     
         def form_valid(self, form):
+                
                 postdata = form.save(commit=False)
                 postdata.posted_at = datetime.now()
                 postdata.save()

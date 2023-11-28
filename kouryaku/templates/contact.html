@@ -1,0 +1,89 @@
+<!--<!DOCTYPE html>と <html lang ="ja"を削除-->
+<!-- ベーステンプレートを適用する-->
+{% extends 'base.html' %}
+<!--静的ファイルのURLを生成するstaticをダウンロードする-->
+{% load static %}   
+<!--ヘッダー情報のページタイトルは
+    ベーステンプレートを利用するページで設定する-->
+{% block title %}Contact{% endblock %}
+       
+        <!-- Navigation-->
+      
+        <!-- Page Header-->
+        {% block header %}
+        <header class="masthead" style="background-image: url({% static 'img/: 24jbg;' %})">
+            <div class="container position-relative px-4 px-lg-5">
+                <div class="row gx-4 gx-lg-5 justify-content-center">
+                    <div class="col-md-10 col-lg-8 col-xl-7">
+                        <div class="page-heading">
+                            <h1>Contact Me</h1>
+                            <span class="subheading">Have questions? I have answers.</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+        {% endblock %}
+        <!-- Main Content-->
+        {% block contents %}
+        <main class="mb-4">
+            <div class="container px-4 px-lg-5">
+                <div class="row gx-4 gx-lg-5 justify-content-center">
+                    <div class="col-md-10 col-lg-8 col-xl-7">
+                        <strong>連絡を取りたいですか？
+                            以下のフォームに記入してメッセージを送信してください
+                            できるだけ早くご連絡します</strong>
+                            <!--フォームの送信が成功したときのメッセージを表示するためのコード-->
+                            <!--requestにmessageオブジェクトが存在している場合-->
+                            {% if messages %}
+                            <!--箇条書きのスタイルを無効にした<ul>タグでメッセージを出力-->
+                            <ul class="list-unstyled" style="list-style: none;">    
+                                <!-- forでmessagesを取り出す-->
+                                {% for message in messages %}
+                            <!-- message.tagsが存在する場合はclass属性にCSSのクラスを設定-->
+                                <li {% if message.tags %} class="{{ message.tags }}" {% endif %}>
+                                <!-- messageに格納されているメッセージを出力-->
+                                    {{ message }}
+                                </li>
+                                {% endfor %}
+
+                            
+                            </ul>
+                        {% endif %} 
+                            <!--　以下フォームを表示するためのコード-->
+                        <div class="my-5">
+                            <!-- method="post"を追加-->
+                            <form method="post">
+                                <!-- CSRF対策のテンプレートタグ-->
+                                {% csrf_token %}
+                                <!-- formで定義されているフィールドの値を取り出す-->
+                                {% for field in form %}
+                                <div class="form-floating">
+                                    <div class="form-group floating-label-form-group controls">
+                                        <!-- <label>タグを作成-->
+                                            {{ field.label_tag }}
+                                            <!--　フィールドの設定値を<input>タグで出力-->
+                                            {{ field }}
+                                            <!-- pを追加-->
+                                            <p class="help-block text-danger"></p>
+
+                                    </div>
+                                </div>
+                                {% endfor %}
+                                <br>
+                                <!-- 送信用のボタン-->
+                                <button type = "submit"
+                                            class="btn btn-primary"
+                                            id ="sendMessageButton">Send</button>
+
+                            </form>
+
+                           
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <hr>
+        </main>
+        {% endblock %}

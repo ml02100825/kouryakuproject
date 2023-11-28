@@ -55,27 +55,27 @@
               </p>
             </div>
             <div class="col-sm-4 offset-md-1 py-4">
-              <h4 class="text-white">Contact</h4>
+              <h4 class="text-bg-dark">Contact</h4>
               <ul class="list-unstyled">
                 <!-- ナビゲーションメニュー-->
                 {% if user.is_authenticated %}
                 <!-- ログイン中のメニュー-->
                 <li><a href="{% url 'kouryaku:mypage' %}"
-                       class="text-white">マイページ</a></li>
+                       class="text-bg-dark">マイページ</a></li>
                 <li><a href="{% url 'accounts:logout' %}"
-                       class="text-white">ログアウト</a></li>
+                       class="text-bg-dark">ログアウト</a></li>
                 <li><a href="{% url 'password_reset' %}"
-                       class="text-white">パスワードのリセット</a></li>
-                <li><a href="mailto:admin@example.com"
-                       class="text-white">Email me</a></li>
+                       class="text-bg-dark">パスワードのリセット</a></li>
+                <li><a href="{% url 'kouryaku:contact' %}"
+                       class="text-bg-dark">Email me</a></li>
                 {% else %}
                 <!-- ログイン状態ではない場合のメニュー-->
                 <li><a href="{% url 'accounts:signup' %}"
-                       class="text-white">サインアップ</a></li>
+                       class="text-bg-dark">サインアップ</a></li>
                 <li><a href="{% url 'accounts:login' %}"
-                       class="text-white">ログイン</a></li>
-                <li><a href="mailto:admin@example.com"
-                       class="text-white">Email me</a></li>
+                       class="text-bg-dark">ログイン</a></li>
+                <li><a href="{% url 'kouryaku:contact' %}"
+                       class="text-bg-dark">Email me</a></li>
                 {% endif %}
               </ul>
             </div>
