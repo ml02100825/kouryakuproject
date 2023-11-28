@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% block title %}Post Edit{% endblock %}
+{% block title %}Comment Edit{% endblock %}
         {% block contents %}
         <br>
         <div class="container">
@@ -9,7 +9,8 @@
                     <form method="POST">
                         {% csrf_token %}
                         {{ form.as_p }}
-                        <button class="btn btn-primary my-2" type="submit">保存</button>
+                        <type="text" id="detail_id" name="detail_id" value="{{ object.id }}"></type>
+                        <a class="btn btn-success col-3 offset-2" href="{% url 'kouryaku:post_detail' object.pk %}">編集する</a>
                         <a href="{% url 'kouryaku:post_detail' object.pk %}"
                         class=" btn btn-secondary my-2">キャンセル</a>
                     

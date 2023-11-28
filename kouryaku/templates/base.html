@@ -19,6 +19,7 @@
           rel="stylesheet"
           integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
           crossorigin="anonymous">
+          <link href={% static "css/style.css" %} rel="stylesheet">
 
     <style>
       .bd-placeholder-img {
@@ -27,11 +28,13 @@
         -webkit-user-select: none;
         -moz-user-select: none;
         user-select: none;
+        float: left;
       }
 
       @media (min-width: 768px) {
         .bd-placeholder-img-lg {
           font-size: 3.5rem;
+          float: left;
         }
       }
     </style>    
@@ -41,17 +44,14 @@
     <!-- ページのヘッダー-->
     <header>
       <!-- ナビゲーションバーのヘッダー-->
-      <div class="collapse bg-dark" id="navbarHeader">
+      <div class="collapse bg-infos" id="navbarHeader">
         <div class="container">
           <div class="row">
             <div class="col-sm-8 col-md-7 py-4">
               <!-- ヘッダーのタイトルと本文-->
               <h4 class="text-white">お気に入りを見つけよう！</h4>
               <p class="text-muted">
-                誰でも参加できる写真投稿サイトです。
-                自分で撮影した写真なら何でもオッケー！
-                でも、カテゴリに属する写真に限ります。
-                コメントも付けてください！
+                誰でも参加できる定点投稿サイトです。
               </p>
             </div>
             <div class="col-sm-4 offset-md-1 py-4">
@@ -60,7 +60,7 @@
                 <!-- ナビゲーションメニュー-->
                 {% if user.is_authenticated %}
                 <!-- ログイン中のメニュー-->
-                <li><a href="#"
+                <li><a href="{% url 'kouryaku:mypage' %}"
                        class="text-white">マイページ</a></li>
                 <li><a href="{% url 'accounts:logout' %}"
                        class="text-white">ログアウト</a></li>
@@ -83,7 +83,7 @@
         </div>
       </div>
       <!-- ナビゲーションバー-->
-      <div class="navbar navbar-dark bg-dark shadow-sm">
+      <div class="navbar navbar-light" style="background-color: #e3f2fd;">
         <div class="container">
           <!-- トップページへのリンク-->
           <a href="{% url 'kouryaku:index' %}"
@@ -100,7 +100,7 @@
                  <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
                  <circle cx="12" cy="13" r="4"/></svg>
             <!-- リンクテキスト-->
-            <strong>Photo Gallery</strong>
+            <strong>Valofixed point</strong>
           </a>
           <!-- トグルボタン-->
           <button class="navbar-toggler"
@@ -131,7 +131,7 @@
         </p>
         <!-- フッターのテキストを任意のものに書き換え-->
         <p class="mb-1">
-          Photo Gallery is &copy; Bootstrap, but please post a lot!</p>
+          定点投稿サイト &copy; Hm</p>
       </div>
     </footer>
     

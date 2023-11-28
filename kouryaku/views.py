@@ -17,16 +17,18 @@ from datetime import datetime, timezone
 from .models import Comments
 from .forms import CommentCreateForm
 from django.shortcuts import redirect, get_object_or_404
-from base.views import BaseView
+
 
 
 class IndexView(ListView):
     template_name = "index.html"
+    model = Lineups
     queryset = Lineups.objects.order_by('-posted_at')
     paginate_by= 9
 
 class MapView(ListView):
     template_name = "index.html"
+    model = Lineups
 
     paginate_by= 9
     def get_queryset(self):
@@ -37,6 +39,7 @@ class MapView(ListView):
 
 class CharacterView(ListView):
     template_name = "index.html"
+    model = Lineups
 
     paginate_by= 9
     def get_queryset(self):
@@ -69,30 +72,20 @@ class UserView(ListView):
 class DetailView(DetailView):
     template_name= "detail.html"
     model = Lineups
-    # queryset = Comments.objects.all().select_related()
-    # queryset = Comments.objects.all().prefetch_related("lineup_set")
+
 
     def get_context_data(self, **kwargs):
+        post_pk = self.kwargs['pk']
+        detail = get_object_or_404(Lineups, pk=post_pk)
         context = super().get_context_data(**kwargs)
-        context.update({
-            'comments' : Comments.objects.filter(target_id=Comments.objects.all().prefetch_related("target_id"))
-            # 'comments' : Comments.objects.filter(target_id=Lineups.comment)
-            # 'comments': Lineups.objects.filter(comments=self.kwargs['comments']),
+        context.update({"detail":detail,
+                        "comments":Comments.objects.filter(target=detail.id)
         })
         return context
-        
-    # def post(self, request, *args, **kwargs):
-
-    #     form = CommentCreateForm(self.request.POST)
-    #     if form.is_valid():
-    #         form.save()
-    #         return CommentCreateForm('/post_detail/' %id, '/create_comment')
     
-        # template_name = 'comment_form.html'
-        # model = Comments
-        # form_class = CommentCreateForm
-        # print(request)
-        # return Lineups.objects.filter(id = request.POST[id])
+    
+ 
+  
 
 
 
@@ -147,16 +140,10 @@ class CommentCreate(CreateView):
     model = Comments
     form_class = CommentCreateForm
 
-    # def get(self, request, *args, **kwargs,):
-    #     print(request.GET.get('detail_id'))
-    #     context = super().get_context_data(**kwargs)
-    #     return context
+
     
     def form_valid(self, form):
-        # postdata= form.save(commit=False)
-        # postdata.user=self.request.user
-        # postdata.save()
-        # return super().form_valid(form)
+
         post_pk = self.kwargs['pk']
         post = get_object_or_404(Lineups, pk=post_pk)
         comment = form.save(commit=False)
@@ -169,6 +156,21 @@ class CommentCreate(CreateView):
         context = super().get_context_data(**kwargs)
         context['kouryaku'] = get_object_or_404(Lineups, pk=self.kwargs['pk'])
         return context
+class CommentEditView(UpdateView):
+        template_name = 'comment_edit.html'
+        model = Comments
+        
+        fields = ['text']
+
+       
+        # success_url = reverse_lazy('kouryaku:post_detail', )
+    
+        def form_valid(self, form):
+                postdata = form.save(commit=False)
+                postdata.posted_at = datetime.now()
+                postdata.save()
+                return super().form_valid(form)
+        
 
 
-# Create your views here.
+
