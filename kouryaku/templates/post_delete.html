@@ -11,7 +11,7 @@
                     {% csrf_token %}
                     <button class="btn btn-bd-primary my-2" type="submit">削除</button>
                     <a href="{% url 'kouryaku:post_detail' object.pk %}"
-                    class="btn btn-secondary my-2">キャンセル</a>
+                    class="btn btn-danger">キャンセル</a>
             
         </div>
     </div>

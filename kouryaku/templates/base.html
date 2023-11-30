@@ -19,7 +19,8 @@
           rel="stylesheet"
           integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
           crossorigin="anonymous">
-          <link href={% static "css/style.css" %} rel="stylesheet">
+    <link href={% static "css/style.css" %} rel="stylesheet">
+    <link rel="icon" type="image/x-icon" href={% static "favicon.png" %}/>
 
     <style>
       .bd-placeholder-img {
@@ -67,7 +68,7 @@
                 <li><a href="{% url 'password_reset' %}"
                        class="text-bg-dark">パスワードのリセット</a></li>
                 <li><a href="{% url 'kouryaku:contact' %}"
-                       class="text-bg-dark">Email me</a></li>
+                       class="text-bg-dark">お問い合わせ</a></li>
                 {% else %}
                 <!-- ログイン状態ではない場合のメニュー-->
                 <li><a href="{% url 'accounts:signup' %}"
@@ -75,7 +76,7 @@
                 <li><a href="{% url 'accounts:login' %}"
                        class="text-bg-dark">ログイン</a></li>
                 <li><a href="{% url 'kouryaku:contact' %}"
-                       class="text-bg-dark">Email me</a></li>
+                       class="text-bg-dark">お問い合わせ</a></li>
                 {% endif %}
               </ul>
             </div>
@@ -88,17 +89,8 @@
           <!-- トップページへのリンク-->
           <a href="{% url 'kouryaku:index' %}"
              class="navbar-brand d-flex align-items-center">
-            <svg xmlns="http://www.w3.org/2000/svg"
-                 width="20" height="20" fill="none"
-                 stroke="currentColor"
-                 stroke-linecap="round"
-                 stroke-linejoin="round"
-                 stroke-width="2"
-                 aria-hidden="true"
-                 class="me-2"
-                 viewBox="0 0 24 24">
-                 <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
-                 <circle cx="12" cy="13" r="4"/></svg>
+            <img src="{% static 'img/v.png'  %}"
+                 width="20" height="20" fill="none">
             <!-- リンクテキスト-->
             <strong>Valofixed point</strong>
           </a>
@@ -127,7 +119,7 @@
     <footer class="text-muted py-5">
       <div class="container">
         <p class="float-end mb-1">
-          <a href="#">Back to top</a>
+          <a href="#">ページ上部に戻る</a>
         </p>
         <!-- フッターのテキストを任意のものに書き換え-->
         <p class="mb-1">

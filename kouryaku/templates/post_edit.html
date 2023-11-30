@@ -9,9 +9,10 @@
                     <form method="POST">
                         {% csrf_token %}
                         {{ form.as_p }}
-                        <button class="btn btn-primary my-2" type="submit">保存</button>
-                        <a href="{% url 'kouryaku:post_detail' object.pk %}"
-                        class=" btn btn-secondary my-2">キャンセル</a>
+                        <p>
+                        <button class="btn btn-success col-3 offset-2" type="submit">完了</button>
+                        </p>
+                        <a href="{% url 'kouryaku:post_detail' object.pk %}" class="btn btn-danger">キャンセル</a>
                     
                 </div>
             </div>

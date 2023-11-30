@@ -1,7 +1,7 @@
 from typing import Any
 from django.db.models.query import QuerySet
 from django.forms.models import BaseModelForm
-from django.http import HttpResponse
+from django.http import HttpRequest, HttpResponse
 from django.shortcuts import render
 from django.views.generic import TemplateView,ListView
 from django.views.generic import CreateView
@@ -21,6 +21,9 @@ from .forms import ContactForm
 from django.contrib import messages
 from django.core.mail import EmailMessage
 from django.views.generic import FormView
+from django.urls import reverse
+
+
 
 
 class IndexView(ListView):
@@ -171,22 +174,30 @@ class MypageView(ListView):
 class PostDeleteView(DeleteView):
     model = Lineups
     template_name = 'post_delete.html'
-    success_url = reverse_lazy('kouryaku:mypage')
+    success_url = reverse_lazy('kouryaku:index')
     def delete(self, request, *args, **kwargs):
         return super().delete(request, *args, **kwargs)
 
 class PostEditView(UpdateView):
     template_name = 'post_edit.html'
     model = Lineups
-      
+    
     fields = ('Character', 'Map', 'title', 'comment','image1', 'image2','image3')
-    success_url = reverse_lazy('kouryaku:mypage')
- 
+    success_url = reverse_lazy('kouryaku:post_edit_success',)
+
     def form_valid(self, form):
             postdata = form.save(commit=False)
             postdata.posted_at = datetime.now()
             postdata.save()
+            print(postdata)
             return super().form_valid(form)
+    
+class PostEditSuccessView(TemplateView):
+    model = Lineups
+    template_name = 'post_edit_success.html'
+    def get_queryset(self):
+        queryset = Lineups.objects.filter(
+            user=self.request.user).order_by('posted_at')
 
 class CommentCreate(CreateView):
     """コメント投稿ページのビュー"""
@@ -212,20 +223,37 @@ class CommentCreate(CreateView):
         return context
 class CommentEditView(UpdateView):
         template_name = 'comment_edit.html'
-        model = Comments
+        # model = Comments
         
         fields = ['text']
+        # pk=Comments.target
 
         
-        success_url = reverse_lazy('kouryaku:post_detail', )
+
+        
+        success_url = reverse_lazy('kouryaku:post_detail')
+    
+        # def form_valid(self, form):
+                
+        #         postdata = form.save(commit=False)
+        #         postdata.posted_at = datetime.now()
+        #         postdata.save()
+        #         return super().form_valid(form)
+        model = Comments
+        form_class = CommentCreateForm
+
+
     
         def form_valid(self, form):
-                
-                postdata = form.save(commit=False)
-                postdata.posted_at = datetime.now()
-                postdata.save()
-                return super().form_valid(form)
-        
+
+            post_pk = self.kwargs['pk']
+            post = get_object_or_404(Lineups, pk=post_pk)
+            comment = form.save(commit=False)
+            comment.user=self.request.user
+            comment.target = post
+            comment.save()
+            return redirect('kouryaku:post_detail', pk=post_pk)
+ 
 
 
 

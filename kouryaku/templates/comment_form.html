@@ -1,3 +1,7 @@
+{%  extends 'base.html' %}
+
+{% block title %}commentcreate{% endblock %}
+{% block contents %}
 {% load widget_tweaks %}
 <div class="container col-lg-6 offset-lg-3">
   <p class="titleline">{{ post.title }}</p>
@@ -13,11 +17,12 @@
     {% endfor %}
     {% csrf_token %}
     <div class="row my-3">
-      <button type="submit" class="btn btn-success col-3 offset-2">投稿する</button>
+      <button type="submit" class="btn btn-primary">投稿する</button>
 
       <a href="{{request.META.HTTP_REFERER}}">
-        <button type="button" >戻る</button>
+        <button type="button" class="btn btn-danger" >戻る</button>
       </a>
     </div>
   </form>
 </div>
+{% endblock %}

@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+{% block title %}Post Edit Success{% endblock %}
+{% block contents %}
+<br><br>
+<h4>編集が完了しました</h4>
+<a href="{% url 'kouryaku:post_detail' pk %}" >投稿記事に戻る</a>
+<a href="{% url 'kouryaku:index' %}">トップページに戻る</a>
+
+{% endblock %}

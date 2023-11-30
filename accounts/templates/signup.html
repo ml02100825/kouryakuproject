@@ -14,7 +14,7 @@
     {{ field.label_tag }}<br>
     {{ field }}
     {% if field.help_text %}
-    <small style="color:grey">{{ field.help_text }}</small>
+    <small style="color:grey;">{{ field.help_text }}</small>
     {% endif %}
     {% for error in field.errors %}
     <p style="color: red;">{{ error }}</p>
@@ -25,7 +25,7 @@
 ※メールアドレスはパスワードをリセットする際に必要となりますので、
 登録をお願いします
 </p>
-<input type="submit" value="Sign up">
+<input type="submit" value="サインアップ">
 </form>
 <br>
 <p><a href="{% url 'kouryaku:index' %}">

@@ -34,10 +34,17 @@ class="btn btn-primary my-2">編集する</a>
     {% endif %}
 
     </div>
+    {% if user.is_authenticated %}
     <type="text" id="detail_id" name="detail_id" value="{{ object.id }}">
-    <a class="btn btn-success col-3 offset-2" href="{% url 'kouryaku:comment_create' object.id %}">投稿する</a>
+    <a class="btn btn-success col-3 offset-2" href="{% url 'kouryaku:comment_create' object.id %}">コメントを投稿する</a>
 </form>
 </div>
+{% else %}
+<type="text" id="detail_id" name="detail_id" value="{{ object.id }}">
+<a class="btn btn-success col-3 offset-2" href="{% url 'accounts:signup' %}">コメントを投稿する</a>
+</form>
+</div>
+{% endif %}
 <div class="commentform">
 
 

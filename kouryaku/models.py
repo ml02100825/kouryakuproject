@@ -83,5 +83,33 @@ class Comments(models.Model):
         return self.text[:20]
 
 
+# class Ability(models.Model):
+#     character= models.ForeignKey(
+#         Character,
+#         verbose_name='キャラクター',
+#         on_delete=models.PROTECT
+#     )
+#     firstability =  models.ImageField(
+#         verbose_name='アビリティ１',
+#         upload_to= 'ability'
+#         blank=True,
+#         null=True
+#     )
+#     secondability =  models.ImageField(
+#         verbose_name='アビリティ２',
+#         upload_to= 'ability'
+#         blank=True,
+#         null=True
+#     )
+#     thirdability =  models.ImageField(
+#         verbose_name='アビリティ３',
+#         upload_to= 'ability'
+#         blank=True,
+#         null=True
+#     )
+
+
+
+
     
 # Create your models here.
