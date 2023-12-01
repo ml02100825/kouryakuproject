@@ -222,35 +222,47 @@ class CommentCreate(CreateView):
         return context
 class CommentEditView(UpdateView):
         template_name = 'comment_edit.html'
-        # model = Comments
-        
-        # pk=Comments.target
-
-        
-
-        
-    
-        # def form_valid(self, form):
-                
-        #         postdata = form.save(commit=False)
-        #         postdata.posted_at = datetime.now()
-        #         postdata.save()
-        #         return super().form_valid(form)
         model = Comments
-        form_class = CommentCreateForm
+        
+        success_url = reverse_lazy('kouryaku:index')
+        fields= {'text'}
 
+        
 
+        
     
         def form_valid(self, form):
+                
+                postdata = form.save(commit=False)
+                postdata.posted_at = datetime.now()
+                postdata.save()
+                return super().form_valid(form)
+        # model = Comments
+        # form_class = CommentCreateForm
+        # def get_success_url(self):
+        #     return reverse_lazy("post_detail", kwargs={"pk":self.kwargs["pk"]})
 
-            post_pk = self.kwargs['pk']
-            post = get_object_or_404(Lineups, pk=post_pk)
-            comment = form.save(commit=False)
-            comment.user=self.request.user
-            comment.target = post
-            comment.save()
-            return redirect('kouryaku:post_detail', pk=post_pk)
- 
 
+    
+       
 
+         
+        # def form_valid(self, form):
+        #     postdata = form.save(commit=False)
+        #     postdata.posted_at = datetime.now()
+        #     postdata.save()
+        #     return super().form_valid(form) 
+            # post_pk = self.kwargs['pk']
+            # post =  get_object_or_404(Comments, pk=self.kwargs['pk'])
+            # comment = form.save(commit=False)
+            # comment.user=self.request.user
+            # comment.id = post
+            # comment.save()
+            # return redirect('kouryaku:post_detail',  pk=post_pk)
+class CommentDeleteView(DeleteView):
+    model = Comments
+    template_name = 'comment_delete.html'
+    success_url = reverse_lazy('kouryaku:index')
+    def delete(self, request, *args, **kwargs):
+        return super().delete(request, *args, **kwargs)
 

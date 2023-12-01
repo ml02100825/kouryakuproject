@@ -56,6 +56,7 @@ class="btn btn-primary my-2">編集する</a>
         <div class='mt-2'>{{comment.text}}</div>
         {% if request.user == comment.user %}
         <a class="commentedit" href="{% url 'kouryaku:comment_edit' comment.pk %}">編集する</a>>
+        <a class="comment_delete" href="{% url 'kouryaku:comment_delete' comment.pk %}">削除する</a>>
         {% endif %}
 
         </div>

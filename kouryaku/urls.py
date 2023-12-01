@@ -19,7 +19,8 @@ urlpatterns=[
     path('post_detail/<int:pk>/comment/edit/', views.CommentEditView.as_view(), name='comment_edit'),
     path("contact/", views.ContactView.as_view(), name='contact'
     ),
-    path('post_edit_success', views.PostEditSuccessView.as_view(), name='post_edit_success')
+    path('post_edit_success', views.PostEditSuccessView.as_view(), name='post_edit_success'),
+    path('post_detail/<int:pk>/comment/delete/', views.CommentDeleteView.as_view(), name='comment_delete'),
 
 
     
