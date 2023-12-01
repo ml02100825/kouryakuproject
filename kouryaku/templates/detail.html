@@ -41,7 +41,7 @@ class="btn btn-primary my-2">編集する</a>
 </div>
 {% else %}
 <type="text" id="detail_id" name="detail_id" value="{{ object.id }}">
-<a class="btn btn-success col-3 offset-2" href="{% url 'accounts:signup' %}">コメントを投稿する</a>
+<a class="btn btn-success col-3 offset-2" href="{% url 'accounts:login' %}">コメントを投稿する</a>
 </form>
 </div>
 {% endif %}
