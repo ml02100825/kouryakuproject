@@ -101,10 +101,10 @@ class ContactView(FormView):
         #送信完了後にリダイレクトするページ
         success_url = reverse_lazy('kouryaku:index')
 
-        def get_context_data(self, **kwargs):
-            context = super().get_context_data(**kwargs)
-            print(context['form'])
-            return context
+        # def get_context_data(self, **kwargs):
+        #     context = super().get_context_data(**kwargs)
+        #     print(context['form'])
+        #     return context
 
         def form_valid(self, form):
     
@@ -180,24 +180,23 @@ class PostDeleteView(DeleteView):
 
 class PostEditView(UpdateView):
     template_name = 'post_edit.html'
+    
     model = Lineups
     
     fields = ('Character', 'Map', 'title', 'comment','image1', 'image2','image3')
-    success_url = reverse_lazy('kouryaku:post_edit_success',)
+    success_url = reverse_lazy('kouryaku:post_detail', )
 
     def form_valid(self, form):
+            post_pk = self.kwargs['pk']
             postdata = form.save(commit=False)
             postdata.posted_at = datetime.now()
             postdata.save()
-            print(postdata)
-            return super().form_valid(form)
+            # return super().form_valid(form)
+            return redirect('kouryaku:post_detail', pk=post_pk)
     
 class PostEditSuccessView(TemplateView):
     model = Lineups
     template_name = 'post_edit_success.html'
-    def get_queryset(self):
-        queryset = Lineups.objects.filter(
-            user=self.request.user).order_by('posted_at')
 
 class CommentCreate(CreateView):
     """コメント投稿ページのビュー"""
@@ -225,13 +224,11 @@ class CommentEditView(UpdateView):
         template_name = 'comment_edit.html'
         # model = Comments
         
-        fields = ['text']
         # pk=Comments.target
 
         
 
         
-        success_url = reverse_lazy('kouryaku:post_detail')
     
         # def form_valid(self, form):
                 
