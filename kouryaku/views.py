@@ -193,10 +193,6 @@ class PostEditView(UpdateView):
             postdata.save()
             # return super().form_valid(form)
             return redirect('kouryaku:post_detail', pk=post_pk)
-    
-class PostEditSuccessView(TemplateView):
-    model = Lineups
-    template_name = 'post_edit_success.html'
 
 class CommentCreate(CreateView):
     """コメント投稿ページのビュー"""
